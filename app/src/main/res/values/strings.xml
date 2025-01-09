@@ -2,4 +2,5 @@
     <string name="app_name">NFC Wallet</string>
     <string name="service_description">NFC Wallet Service</string>
     <string name="aid_group_description">Wallet AID Group</string>
+    <string name="preview_card">Preview Card</string>
 </resources>

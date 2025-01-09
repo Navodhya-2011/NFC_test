@@ -1,6 +1,7 @@
 package com.example.testvisa_1
 
 import android.os.Bundle
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -16,5 +17,17 @@ class Card_Preview_Activity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        val cardNameTextView = findViewById<TextView>(R.id.cardHolderName)
+        val cardNumberTextView = findViewById<TextView>(R.id.cardNumber)
+
+        // Retrieve data from intent
+        val cardName = intent.getStringExtra("CARD_NAME")
+        val cardNumber = intent.getStringExtra("CARD_NUMBER")
+
+        // Display data
+        cardNameTextView.text = cardName
+        cardNumberTextView.text = cardNumber
     }
+
 }

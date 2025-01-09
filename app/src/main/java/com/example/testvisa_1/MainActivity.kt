@@ -1,5 +1,6 @@
 package com.example.testvisa_1
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.nfc.NfcAdapter
 import android.os.Bundle
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
 
+//    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -21,8 +23,21 @@ class MainActivity : AppCompatActivity() {
         val cvvField = findViewById<EditText>(R.id.cvv)
         val saveCardButton = findViewById<Button>(R.id.btn_save_card)
 
+        var cardType = String
+
+        val cardN = cardNumberField.toString()
+
+        if (cardN.startsWith("4")){
+            cardType.equals("visa")
+        }
+        else if (cardN.startsWith("5")){
+            cardType.equals("mastercard")
+        }else{
+            cardType.equals("unknown")
+        }
+
         val enableNfcButton: Button = findViewById(R.id.btn_enable_nfc)
-        val cardDetailsDisplay = findViewById<TextView>(R.id.card_details_display)
+//        val cardDetailsDisplay = findViewById<TextView>(R.id.card_details_display)
         enableNfcButton.setOnClickListener {
             val nfcAdapter = NfcAdapter.getDefaultAdapter(this)
             if (nfcAdapter == null) {
@@ -49,13 +64,29 @@ class MainActivity : AppCompatActivity() {
                 startService(intent)
 
                 // Display the card details
-                cardDetailsDisplay.text = "Card Name: $cardName\nCard Number: $cardNumber\nExpiry Date: $expiryDate\nCVV: $cvv"
-                cardDetailsDisplay.visibility = TextView.VISIBLE
+//                cardDetailsDisplay.text = "Card Name: $cardName\nCard Number: $cardNumber\nExpiry Date: $expiryDate\nCVV: $cvv"
+//                cardDetailsDisplay.visibility = TextView.VISIBLE
             } else {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
             }
         }
-    }
+
+        val previewButton = findViewById<Button>(R.id.preview)
+        previewButton.setOnClickListener {
+            val cardName = cardNameField.text.toString()
+            val cardNumber = cardNumberField.text.toString()
+
+            if (cardName.isNotEmpty() && cardNumber.isNotEmpty()) {
+                val intent = Intent(this, Card_Preview_Activity::class.java)
+                intent.putExtra("CARD_NAME", cardName)
+                intent.putExtra("CARD_NUMBER", cardNumber)
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, "Please save card details first.", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+}
 
     private fun saveCardDetails(cardName: String, cardNumber: String, expiryDate: String, cvv: String) {
         // Save card details securely (this example just stores them in memory)
@@ -67,4 +98,6 @@ class MainActivity : AppCompatActivity() {
         editor.putString("CVV", cvv)
         editor.apply()
     }
+
+
 }

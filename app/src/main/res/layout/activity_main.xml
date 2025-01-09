@@ -58,15 +58,20 @@
         android:text="Save Card"
         android:layout_marginTop="16dp" />
 
-    <TextView
-        android:id="@+id/card_details_display"
+<!--    <TextView-->
+<!--        android:id="@+id/card_details_display"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Card details will appear here"-->
+<!--        android:textSize="16sp"-->
+<!--        android:padding="16dp"-->
+<!--        android:visibility="gone"/>-->
+
+    <Button
+        android:id="@+id/preview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Card details will appear here"
-        android:textSize="16sp"
-        android:padding="16dp"
-        android:visibility="gone"/>
-
+        android:text="@string/preview_card" />
 
 
 </LinearLayout>
