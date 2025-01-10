@@ -20,14 +20,23 @@ class Card_Preview_Activity : AppCompatActivity() {
 
         val cardNameTextView = findViewById<TextView>(R.id.cardHolderName)
         val cardNumberTextView = findViewById<TextView>(R.id.cardNumber)
+        val expDateTextView = findViewById<TextView>(R.id.expDate)
+        val cardTypeTextView = findViewById<TextView>(R.id.Ctype)
 
         // Retrieve data from intent
         val cardName = intent.getStringExtra("CARD_NAME")
         val cardNumber = intent.getStringExtra("CARD_NUMBER")
+        val expiryDate = intent.getStringExtra("EXPIRY_DATE")
+        val cardType = intent.getStringExtra("CARD_TYPE")
+
 
         // Display data
         cardNameTextView.text = cardName
         cardNumberTextView.text = cardNumber
+        expDateTextView.text = expiryDate
+        cardTypeTextView.text = cardType
+
+
     }
 
 }

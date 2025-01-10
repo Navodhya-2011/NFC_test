@@ -13,9 +13,11 @@
         android:label="NFC Wallet"
         android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar">
         <activity
-            android:name=".Card_Preview_Activity"
+            android:name=".ViewCardsActivity"
             android:exported="false" />
-        <!-- MainActivity as Launcher -->
+        <activity
+            android:name=".Card_Preview_Activity"
+            android:exported="false" /> <!-- MainActivity as Launcher -->
         <activity
             android:name=".MainActivity"
             android:exported="true">

@@ -1,77 +1,62 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:padding="16dp">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="NFC Wallet"
-        android:textSize="24sp"
-        android:gravity="center" />
-
-    <Button
-        android:id="@+id/btn_enable_nfc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Enable NFC" />
-
-
-    <EditText
-        android:id="@+id/card_name"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:hint="Name on Card"
-        android:inputType="text"
-        android:padding="12dp" />
-
-    <EditText
-        android:id="@+id/card_number"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:hint="Card Number"
-        android:inputType="number"
-        android:padding="12dp" />
-
-    <EditText
-        android:id="@+id/expiry_date"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:hint="MM/YY"
-        android:inputType="text"
-        android:padding="12dp" />
-
-    <EditText
-        android:id="@+id/cvv"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:hint="CVV"
-        android:inputType="numberPassword"
-        android:padding="12dp" />
-
-    <Button
-        android:id="@+id/btn_save_card"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Save Card"
-        android:layout_marginTop="16dp" />
-
-<!--    <TextView-->
-<!--        android:id="@+id/card_details_display"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Card details will appear here"-->
-<!--        android:textSize="16sp"-->
-<!--        android:padding="16dp"-->
-<!--        android:visibility="gone"/>-->
-
-    <Button
-        android:id="@+id/preview"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/preview_card" />
+        android:orientation="vertical"
+        android:padding="16dp">
 
+        <EditText
+            android:id="@+id/card_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Card Name" />
 
-</LinearLayout>
+        <EditText
+            android:id="@+id/card_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Card Number"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/expiry_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Expiry Date (MM/YY)" />
+
+        <EditText
+            android:id="@+id/cvv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="CVV"
+            android:inputType="numberPassword" />
+
+        <Button
+            android:id="@+id/btn_save_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save Card" />
+
+        <Button
+            android:id="@+id/btn_enable_nfc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enable NFC" />
+
+        <Button
+            android:id="@+id/btn_view_cards"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="View Cards" />
+
+        <Button
+            android:id="@+id/preview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Preview Card" />
+    </LinearLayout>
+</ScrollView>

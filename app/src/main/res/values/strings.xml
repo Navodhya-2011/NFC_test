@@ -3,4 +3,10 @@
     <string name="service_description">NFC Wallet Service</string>
     <string name="aid_group_description">Wallet AID Group</string>
     <string name="preview_card">Preview Card</string>
+    <string name="john_doe">John Doe</string>
+    <string name="_1234_5678_9123_4567">1234 5678 9123 4567</string>
+    <string name="card_logo">Card Logo</string>
+    <string name="mm_yy">MM/YY</string>
+    <string name="visa_master">Visa/Master</string>
+    <string name="view_cards">View Cards</string>
 </resources>

@@ -31,8 +31,10 @@
                 android:layout_height="60dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:contentDescription="Card Logo"
+                android:contentDescription="@string/card_logo"
                 android:src="@drawable/images" />
+
+
 
             <TextView
                 android:id="@+id/cardNumber"
@@ -40,21 +42,46 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/cardLogo"
                 android:layout_marginStart="16dp"
-                android:hint="1234 5678 9123 4567"
+                android:hint="@string/_1234_5678_9123_4567"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/cardHolderName"
+                android:layout_width="166dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/expDate"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="26dp"
+                android:hint="@string/john_doe"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/expDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/cardNumber"
+                android:layout_marginTop="10dp"
                 android:layout_marginStart="16dp"
-                android:hint="John Doe"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:hint="@string/mm_yy"
+                android:textSize="20sp"
+                />
+
+            <TextView
+                android:id="@+id/Ctype"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="290dp"
+                android:layout_marginTop="16dp"
+                android:hint="@string/visa_master"
+                android:textSize="20sp"
+                android:backgroundTint="@color/white"
+                android:textColor="@color/black"
+                />
+
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 

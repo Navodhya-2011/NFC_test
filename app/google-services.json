@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "107285178407",
+    "project_id": "nfc-pay-app",
+    "storage_bucket": "nfc-pay-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:107285178407:android:150ec9541947c7ac5c4602",
+        "android_client_info": {
+          "package_name": "com.example.testvisa_1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3oT5wnyGe8J-jH-4NqZZSs610xbEVe_0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

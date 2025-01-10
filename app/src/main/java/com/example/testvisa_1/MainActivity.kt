@@ -1,18 +1,18 @@
 package com.example.testvisa_1
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.nfc.NfcAdapter
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.firestore.FirebaseFirestore
 
 class MainActivity : AppCompatActivity() {
 
-//    @SuppressLint("MissingInflatedId")
+    private var cardType: String = "Unknown"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -22,22 +22,11 @@ class MainActivity : AppCompatActivity() {
         val expiryDateField = findViewById<EditText>(R.id.expiry_date)
         val cvvField = findViewById<EditText>(R.id.cvv)
         val saveCardButton = findViewById<Button>(R.id.btn_save_card)
+        val viewCardsButton = findViewById<Button>(R.id.btn_view_cards)
+        val previewButton = findViewById<Button>(R.id.preview)
 
-        var cardType = String
-
-        val cardN = cardNumberField.toString()
-
-        if (cardN.startsWith("4")){
-            cardType.equals("visa")
-        }
-        else if (cardN.startsWith("5")){
-            cardType.equals("mastercard")
-        }else{
-            cardType.equals("unknown")
-        }
-
+        // NFC enable button
         val enableNfcButton: Button = findViewById(R.id.btn_enable_nfc)
-//        val cardDetailsDisplay = findViewById<TextView>(R.id.card_details_display)
         enableNfcButton.setOnClickListener {
             val nfcAdapter = NfcAdapter.getDefaultAdapter(this)
             if (nfcAdapter == null) {
@@ -49,55 +38,74 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        // Save Card Button
         saveCardButton.setOnClickListener {
             val cardName = cardNameField.text.toString()
             val cardNumber = cardNumberField.text.toString()
             val expiryDate = expiryDateField.text.toString()
             val cvv = cvvField.text.toString()
 
+            determineCardType(cardNumber)
+
             if (cardNumber.isNotEmpty() && expiryDate.isNotEmpty() && cvv.isNotEmpty()) {
-                saveCardDetails(cardName, cardNumber, expiryDate, cvv)
-                Toast.makeText(this, "Card saved successfully", Toast.LENGTH_SHORT).show()
-
-                // Start the HCE service
-                val intent = Intent(this, MyHostApduService::class.java)
-                startService(intent)
-
-                // Display the card details
-//                cardDetailsDisplay.text = "Card Name: $cardName\nCard Number: $cardNumber\nExpiry Date: $expiryDate\nCVV: $cvv"
-//                cardDetailsDisplay.visibility = TextView.VISIBLE
+                saveCardDetails(cardName, cardNumber, expiryDate, cvv, cardType)
             } else {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
             }
         }
 
-        val previewButton = findViewById<Button>(R.id.preview)
+        // View Cards Button
+        viewCardsButton.setOnClickListener {
+            startActivity(Intent(this, ViewCardsActivity::class.java))
+        }
+
+        // Preview Button
         previewButton.setOnClickListener {
             val cardName = cardNameField.text.toString()
             val cardNumber = cardNumberField.text.toString()
+            val expiryDate = expiryDateField.text.toString()
+
+            determineCardType(cardNumber)
 
             if (cardName.isNotEmpty() && cardNumber.isNotEmpty()) {
                 val intent = Intent(this, Card_Preview_Activity::class.java)
                 intent.putExtra("CARD_NAME", cardName)
                 intent.putExtra("CARD_NUMBER", cardNumber)
+                intent.putExtra("EXPIRY_DATE", expiryDate)
+                intent.putExtra("CARD_TYPE", cardType)
                 startActivity(intent)
             } else {
-                Toast.makeText(this, "Please save card details first.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
             }
         }
-
-}
-
-    private fun saveCardDetails(cardName: String, cardNumber: String, expiryDate: String, cvv: String) {
-        // Save card details securely (this example just stores them in memory)
-        val sharedPrefs = getSharedPreferences("CardPrefs", MODE_PRIVATE)
-        val editor = sharedPrefs.edit()
-        editor.putString("CARD_NAME", cardName)
-        editor.putString("CARD_NUMBER", cardNumber)
-        editor.putString("EXPIRY_DATE", expiryDate)
-        editor.putString("CVV", cvv)
-        editor.apply()
     }
 
+    private fun determineCardType(cardNumber: String) {
+        cardType = when {
+            cardNumber.startsWith("4") -> "Visa"
+            cardNumber.startsWith("5") -> "Mastercard"
+            cardNumber.startsWith("3") -> "Amex"
+            else -> "Unknown"
+        }
+    }
 
+    private fun saveCardDetails(cardName: String, cardNumber: String, expiryDate: String, cvv: String, cardType: String) {
+        val cardData = hashMapOf(
+            "cardName" to cardName,
+            "cardNumber" to cardNumber,
+            "expiryDate" to expiryDate,
+            "cvv" to cvv,
+            "cardType" to cardType
+        )
+
+        val db = FirebaseFirestore.getInstance()
+        db.collection("cards")
+            .add(cardData)
+            .addOnSuccessListener {
+                Toast.makeText(this, "Card details saved successfully!", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Failed to save card details: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
 }
