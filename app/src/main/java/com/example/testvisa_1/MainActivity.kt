@@ -7,6 +7,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 
 class MainActivity : AppCompatActivity() {
@@ -89,23 +91,51 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveCardDetails(cardName: String, cardNumber: String, expiryDate: String, cvv: String, cardType: String) {
-        val cardData = hashMapOf(
-            "cardName" to cardName,
-            "cardNumber" to cardNumber,
-            "expiryDate" to expiryDate,
-            "cvv" to cvv,
-            "cardType" to cardType
-        )
+//    private fun saveCardDetails(cardName: String, cardNumber: String, expiryDate: String, cvv: String, cardType: String) {
+//        val cardData = hashMapOf(
+//            "cardName" to cardName,
+//            "cardNumber" to cardNumber,
+//            "expiryDate" to expiryDate,
+//            "cvv" to cvv,
+//            "cardType" to cardType
+//        )
+//
+//        val db = FirebaseFirestore.getInstance()
+//        db.collection("cards")
+//            .add(cardData)
+//            .addOnSuccessListener {
+//                Toast.makeText(this, "Card details saved successfully!", Toast.LENGTH_SHORT).show()
+//            }
+//            .addOnFailureListener { e ->
+//                Toast.makeText(this, "Failed to save card details: ${e.message}", Toast.LENGTH_SHORT).show()
+//            }
+//    }
 
-        val db = FirebaseFirestore.getInstance()
-        db.collection("cards")
-            .add(cardData)
-            .addOnSuccessListener {
-                Toast.makeText(this, "Card details saved successfully!", Toast.LENGTH_SHORT).show()
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(this, "Failed to save card details: ${e.message}", Toast.LENGTH_SHORT).show()
-            }
+    private fun saveCardDetails(cardName: String, cardNumber: String, expiryDate: String, cvv: String, cardType: String) {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+
+        if (userId != null) {
+            val cardData = mapOf(
+                "cardName" to cardName,
+                "cardNumber" to cardNumber,
+                "expiryDate" to expiryDate,
+                "cvv" to cvv,
+                "cardType" to cardType,
+                "userId" to userId
+            )
+
+            val db = FirebaseFirestore.getInstance()
+            db.collection("cards")
+                .add(cardData)
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Card details saved successfully!", Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Failed to save card details: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            Toast.makeText(this, "User not authenticated. Please log in.", Toast.LENGTH_SHORT).show()
+        }
     }
+
 }

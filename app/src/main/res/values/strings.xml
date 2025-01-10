@@ -9,4 +9,5 @@
     <string name="mm_yy">MM/YY</string>
     <string name="visa_master">Visa/Master</string>
     <string name="view_cards">View Cards</string>
+    <string name="visa">Visa</string>
 </resources>

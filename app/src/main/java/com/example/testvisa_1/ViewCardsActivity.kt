@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class ViewCardsActivity : AppCompatActivity() {
@@ -21,7 +22,25 @@ class ViewCardsActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         val db = FirebaseFirestore.getInstance()
+//        db.collection("cards")
+//            .get()
+//            .addOnSuccessListener { documents ->
+//                val cardList = documents.map { document ->
+//                    Card(
+//                        document.getString("cardName") ?: "",
+//                        document.getString("cardNumber") ?: "",
+//                        document.getString("expiryDate") ?: "",
+//                        document.getString("cardType") ?: ""
+//                    )
+//                }
+//                recyclerView.adapter = CardAdapter(cardList)
+//            }
+//            .addOnFailureListener { e ->
+//                Toast.makeText(this, "Failed to load cards: ${e.message}", Toast.LENGTH_SHORT).show()
+//            }
+
         db.collection("cards")
+            .whereEqualTo("userId", FirebaseAuth.getInstance().currentUser?.uid)
             .get()
             .addOnSuccessListener { documents ->
                 val cardList = documents.map { document ->
@@ -38,6 +57,7 @@ class ViewCardsActivity : AppCompatActivity() {
                 Toast.makeText(this, "Failed to load cards: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
+
 }
 
 data class Card(val name: String, val number: String, val expiryDate: String, val type: String)
@@ -45,9 +65,10 @@ data class Card(val name: String, val number: String, val expiryDate: String, va
 class CardAdapter(private val cards: List<Card>) : RecyclerView.Adapter<CardAdapter.CardViewHolder>() {
 
     class CardViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val cardName: TextView = view.findViewById(R.id.cardName)
+        val cardName: TextView = view.findViewById(R.id.cardHolderName)
         val cardNumber: TextView = view.findViewById(R.id.cardNumber)
-        val expiryDate: TextView = view.findViewById(R.id.expiryDate)
+        val expiryDate: TextView = view.findViewById(R.id.expDate)
+        val cardType: TextView = view.findViewById(R.id.Ctype)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
@@ -60,6 +81,7 @@ class CardAdapter(private val cards: List<Card>) : RecyclerView.Adapter<CardAdap
         holder.cardName.text = card.name
         holder.cardNumber.text = "**** **** **** ${card.number.takeLast(4)}"
         holder.expiryDate.text = card.expiryDate
+        holder.cardType.text = card.type
     }
 
     override fun getItemCount() = cards.size
